@@ -1,5 +1,7 @@
 plugins {
     id 'java'
+    id "io.freefair.lombok" version "5.3.0"
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 }
 
 group 'org.simplemock'
@@ -9,16 +11,30 @@ repositories {
     mavenCentral()
 }
 
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
 dependencies {
     ['armeria',
      'armeria-logback'
     ].each {
         implementation "com.linecorp.armeria:${it}:1.16.0"
     }
-    implementation 'com.google.code.gson:gson:2.7'
+    implementation 'com.google.code.gson:gson:2.9'
+    implementation 'org.springframework:spring-core:5.3.20'
+    implementation 'org.springframework:spring-context:5.3.20'
+    implementation 'javax.validation:validation-api:2.0.1.Final'
 
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok:1.18.24'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    testImplementation 'org.assertj:assertj-core:3.22.0'
+    testImplementation 'org.mockito:mockito-core:4.5.1'
 }
 
 test {
